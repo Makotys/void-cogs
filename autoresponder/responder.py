@@ -35,7 +35,7 @@ class responder(commands.Cog):
             await channel.send("Мяу.")
 
         # WYCI
-        match = re.search(r"\S\s+(?:when|whence|когда)[\s*?.!)]*$", message.content, re.IGNORECASE)
+        match = re.search(r"\b(?:when|whence|когда)\b.*\?$", message.content, re.IGNORECASE)
         if match:
             if random.random() > 0.005:
                 await channel.send("When You Code It.")
