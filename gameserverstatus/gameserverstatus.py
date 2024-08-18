@@ -256,18 +256,18 @@ class GameServerStatus(commands.Cog):
             if name:
                 embed.title = name
 
-            embed.add_field(name="Players Online", value=f"{count}/{countmax}")
+            embed.add_field(name="Игроков Онлайн", value=f"{count}/{countmax}")
 
             rlevel = json.get("run_level")
             if rlevel is not None:
                 status = "Unknown"
 
                 if rlevel == SS14_RUN_LEVEL_PREGAME:
-                    status = "Pre game lobby"
+                    status = "В Лобби"
                 elif rlevel == SS14_RUN_LEVEL_GAME:
-                    status = "In game"
+                    status = "В Игре"
                 elif rlevel == SS14_RUN_LEVEL_POSTGAME:
-                    status = "Post game"
+                    status = "Пост Раунд"
 
                 embed.add_field(name="Status", value=status)
 
@@ -277,23 +277,23 @@ class GameServerStatus(commands.Cog):
                 delta = datetime.now(timezone.utc) - starttime
                 s = []
                 if delta.days > 0:
-                    s.append(f"{delta.days} days")
+                    s.append(f"{delta.days} д.")
 
                 minutes = delta.seconds // 60
                 hours = minutes // 60
                 if hours > 0:
-                    s.append(f"{hours} hours")
+                    s.append(f"{hours} ч.")
                     minutes %= 60
 
-                s.append(f"{minutes} minutes")
+                s.append(f"{minutes} м.")
 
-                embed.add_field(name="Round length", value=", ".join(s))
+                embed.add_field(name="Длина Раунда", value=", ".join(s))
 
-                embed.add_field(name="Round ID", value=round_id)
+                embed.add_field(name="Номер Раунда", value=round_id)
 
-                embed.add_field(name="Map", value=gamemap)
+                embed.add_field(name="Карта", value=gamemap)
 
-                embed.add_field(name="Preset", value=preset)
+                embed.add_field(name="Режим", value=preset)
 
     async def do_status_ss13(self, ctx: Messageable, name: str, dat: Dict[str, str], embed: Embed) -> None:
         cfgurl = dat["address"]
@@ -325,12 +325,12 @@ class GameServerStatus(commands.Cog):
             log.exception("Got unsupported response")
             raise StatusException("Server sent unsupported response.")
 
-        embed.add_field(name="Players Online", value=players)
+        embed.add_field(name="Игроков Онлайн", value=players)
         if mapname:
-            embed.add_field(name="Map", value=mapname)
+            embed.add_field(name="Карта", value=mapname)
 
         if station_time:
-            embed.add_field(name="Station Time", value=station_time)
+            embed.add_field(name="Станционное Время", value=station_time)
 
     @statuscfg.group()
     async def addserver(self, ctx: commands.Context) -> None:
